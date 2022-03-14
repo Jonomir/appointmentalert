@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointmentalert
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: appointmentalert
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: appointmentalert
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: appointmentalert
+          image: repository.example.com/appointmentalert:latest
+          imagePullPolicy: Always
+          env:
+            - name: TIME_WINDOW_START
+              value: "TODO / yyyy-mm-dd"
+            - name: TIME_WINDOW_END
+              value: "TODO / yyyy-mm-dd"
+            - name: EMAIL_TO
+              value: "mail.one@example.com|mail.two@example.com"
+            - name: EMAIL_HOST
+              value: "TODO"
+            - name: EMAIL_PORT
+              value: "TODO"
+            - name: EMAIL_START_TLS_ENABLED
+              value: "true"
+            - name: EMAIL_USERNAME
+              value: "TODO"
+            - name: EMAIL_PASSWORD
+              value: "TODO"
+            - name: EMAIL_FROM
+              value: "TODO"
+        - name: selenium-chrome
+          image: selenium/standalone-chrome:4.1.1
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+              ephemeral-storage: "1Gi"
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+              ephemeral-storage: "1Gi"
+          ports:
+            - containerPort: 4444
